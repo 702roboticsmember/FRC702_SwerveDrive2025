@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.695314845175145,
+      "y": 4.384510587202993
+    },
+    "rotation": -59.620873988631644
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Line 3 Path"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Line Autos",
+  "choreoAuto": false
+}
