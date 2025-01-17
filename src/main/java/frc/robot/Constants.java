@@ -193,7 +193,7 @@ public final class Constants {
         public static final double DRIVE_KA = 0.27;
 
         /** Units: m/s */
-        public static final double MAX_SPEED = 10;
+        public static final double MAX_SPEED = 22;
         /** Units: radians/s */
         public static final double MAX_ANGULAR_VELOCITY = 10.0;
 
