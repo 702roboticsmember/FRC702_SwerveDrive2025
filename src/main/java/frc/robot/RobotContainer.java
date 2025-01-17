@@ -51,7 +51,8 @@ public class RobotContainer {
     
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton fastMode = new JoystickButton(driver, XboxController.Button.kB.value);
-    private final JoystickButton slowMode = new JoystickButton(driver, XboxController.Button.kB.value);
+    private final JoystickButton slowMode = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton align = new JoystickButton(driver, XboxController.Button.kX.value);
     //private final JoystickButton AutoAmp = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
     
@@ -73,12 +74,29 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final LimelightSubsystem l_LimelightSubsystem = new LimelightSubsystem();
 
    
 
     /**
      * The container for the robot. Contains subsystems, IO devices, and commands.
      */
+
+     public Command AutoPickUp_Driver(double x, double z, double ry) {
+        return new AutoFollowCommand(() -> l_LimelightSubsystem.getTargetPos(0),
+                        () -> l_LimelightSubsystem.getTargetPos(2),
+                        () -> l_LimelightSubsystem.getTargetPos(4),
+                        () -> l_LimelightSubsystem.IsTargetAvailable(), 
+                        x, 
+                        z, 
+                        ry, 
+                        s_Swerve);
+                
+                
+    }
+
+
+
     public RobotContainer() {
         Field2d field = new Field2d();
         SmartDashboard.putData("Field", field);
@@ -100,9 +118,9 @@ public class RobotContainer {
 
       
         s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, 
-        ()-> driver.getRawAxis(0), 
+        ()-> -driver.getRawAxis(0), 
         ()-> driver.getRawAxis(1),
-        ()-> driver.getRawAxis(4), 
+        ()-> -driver.getRawAxis(4), 
         ()->robotCentric));
 
       
@@ -147,6 +165,11 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         slowMode.onTrue(new InstantCommand(() -> RobotContainer.power = .333));
         fastMode.onTrue(new InstantCommand(() -> RobotContainer.power = 1));
+
+        align.whileTrue(new SequentialCommandGroup(
+                 new InstantCommand(()-> l_LimelightSubsystem.setCamMode(0)), AutoPickUp_Driver(0, .75, 0)));
+
+        align.onFalse(new ParallelCommandGroup(new InstantCommand(()-> l_LimelightSubsystem.setCamMode(0))));
     }
         
 

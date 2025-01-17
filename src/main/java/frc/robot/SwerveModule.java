@@ -89,7 +89,7 @@ public class SwerveModule {
     }
 
     public Rotation2d getCANcoder() {
-        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue());
+        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValueAsDouble());
     }
 
     public void resetToAbsolute() {
@@ -99,14 +99,14 @@ public class SwerveModule {
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(
-                Conversions.RPSToMPS(driveMotor.getVelocity().getValue(), Constants.Swerve.WHEEL_CIRCUMFERENCE),
-                Rotation2d.fromRotations(angleMotor.getPosition().getValue()));
+                Conversions.RPSToMPS(driveMotor.getVelocity().getValueAsDouble(), Constants.Swerve.WHEEL_CIRCUMFERENCE),
+                Rotation2d.fromRotations(angleMotor.getPosition().getValueAsDouble()));
     }
 
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                Conversions.rotationsToMeters(driveMotor.getPosition().getValue(),
+                Conversions.rotationsToMeters(driveMotor.getPosition().getValueAsDouble(),
                         Constants.Swerve.WHEEL_CIRCUMFERENCE),
-                Rotation2d.fromRotations(angleMotor.getPosition().getValue()));
+                Rotation2d.fromRotations(angleMotor.getPosition().getValueAsDouble()));
     }
 }

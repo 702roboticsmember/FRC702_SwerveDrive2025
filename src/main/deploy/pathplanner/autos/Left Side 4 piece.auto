@@ -1,12 +1,5 @@
 {
-  "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 0.8,
-      "y": 6.65
-    },
-    "rotation": 60.971652773373386
-  },
+  "version": "2025.0",
   "command": {
     "type": "sequential",
     "data": {
@@ -195,6 +188,7 @@
       ]
     }
   },
+  "resetOdom": true,
   "folder": "Max Autos",
   "choreoAuto": false
 }
