@@ -10,6 +10,7 @@ public class COTSTalonFXSwerveConstants {
     public final double wheelDiameter;
     public final double wheelCircumference;
     public final double angleGearRatio;
+    
     public final double driveGearRatio;
     public final double angleKP;
     public final double angleKI;

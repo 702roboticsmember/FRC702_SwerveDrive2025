@@ -1,5 +1,5 @@
 {
-  "version": 1.0,
+  "version": "2025.0",
   "waypoints": [
     {
       "anchor": {
@@ -46,10 +46,12 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "IntakeOut and On",
       "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
       "command": {
         "type": "parallel",
         "data": {
@@ -59,21 +61,22 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 7.5,
-    "maxAcceleration": 5.2,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
   },
   "goalEndState": {
     "velocity": 1.0,
-    "rotation": -14.826479970355567,
-    "rotateFast": false
+    "rotation": -14.826479970355567
   },
   "reversed": false,
-  "folder": "Max's Autos",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

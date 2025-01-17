@@ -1,12 +1,5 @@
 {
-  "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 0.7502903555425439,
-      "y": 4.417980133670191
-    },
-    "rotation": -58.57043438516141
-  },
+  "version": "2025.0",
   "command": {
     "type": "sequential",
     "data": {
@@ -26,6 +19,7 @@
       ]
     }
   },
+  "resetOdom": true,
   "folder": "Work in Progress Autos",
   "choreoAuto": false
 }

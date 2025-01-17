@@ -7,8 +7,19 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
-import com.kauailabs.navx.frc.AHRS;
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
+import com.studica.frc.jni.AHRSJNI;
+
+import java.io.IOException;
+import java.util.function.BooleanSupplier;
+
+import org.json.simple.parser.ParseException;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPLTVController;
+
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -25,10 +36,17 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] swerveModules;
     public AHRS gyro;
+    public  RobotConfig config;
 
     public Swerve() {
-        gyro = new AHRS();
+        gyro = new AHRS( NavXComType.kMXP_SPI);
         gyro.reset();
+        try {
+            config = RobotConfig.fromGUISettings();
+        } catch (IOException | ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         swerveModules = new SwerveModule[] {
                 new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -37,28 +55,30 @@ public class Swerve extends SubsystemBase {
                 new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
 
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.KINEMATICS, getGyroYaw(), getModulePositions());
-
-        AutoBuilder.configureHolonomic(
-                this::getPose,
-                this::resetPose,
-                this::getRobotRelativeSpeeds,
-                this::driveRobotRelative,
-                Constants.Swerve.PATHPLANNER_FOLLOWER_CONFIG,
-                () -> {
-              // Boolean supplier that controls when the path will be mirrored for the red alliance
-              // This will flip the path being followed to the red side of the field.
-              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-              }
-              return false;
-            },
-           
+        
     
-                this);
+        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.KINEMATICS, getGyroYaw(), getModulePositions());
+        
+        AutoBuilder.configure(
+            this::getPose, // Robot pose supplier
+            this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            Constants.Swerve.PATHPLANNER_FOLLOWER_CONFIG,
+            config,
+                () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+      
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                      return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                  },
+                  this // Reference to this subsystem to set requirements
+          );
     }
 
     private void driveRobotRelative(ChassisSpeeds speeds) {
@@ -150,7 +170,10 @@ public class Swerve extends SubsystemBase {
     public Rotation2d getGyroYaw() {
         return (Constants.Swerve.INVERT_GYRO) ? Rotation2d.fromDegrees(360 - gyro.getYaw())
                 : Rotation2d.fromDegrees(gyro.getYaw());
+    }
 
+    public double getAcc() {
+        return gyro.getAccelFullScaleRangeG();
     }
 
     public void resetModulesToAbsolute() {
@@ -162,7 +185,7 @@ public class Swerve extends SubsystemBase {
     @Override
     public void periodic() {
         swerveOdometry.update(getGyroYaw(), getModulePositions());
-       
+        SmartDashboard.putNumber("Acc",this.getAcc());
         for (SwerveModule mod : swerveModules) {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
