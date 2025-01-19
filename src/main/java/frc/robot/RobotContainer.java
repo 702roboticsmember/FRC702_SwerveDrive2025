@@ -10,6 +10,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -53,6 +54,8 @@ public class RobotContainer {
     private final JoystickButton fastMode = new JoystickButton(driver, XboxController.Button.kB.value);
     private final JoystickButton slowMode = new JoystickButton(driver, XboxController.Button.kA.value);
     private final JoystickButton align = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton follow = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+
     //private final JoystickButton AutoAmp = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
     
@@ -83,18 +86,23 @@ public class RobotContainer {
      */
 
      public Command AutoPickUp_Driver(double x, double z, double ry) {
-        return new AutoFollowCommand(() -> l_LimelightSubsystem.getTargetPos(0),
+        return new AlignCommand(() -> l_LimelightSubsystem.getTargetPos(0),
                         () -> l_LimelightSubsystem.getTargetPos(2),
                         () -> l_LimelightSubsystem.getTargetPos(4),
                         () -> l_LimelightSubsystem.IsTargetAvailable(), 
                         x, 
                         z, 
                         ry, 
-                        s_Swerve);
-                
-                
+                        s_Swerve); 
     }
 
+    public Command AutoFollow_Driver(double turn) {
+        return new AutoFollowCommand(()->l_LimelightSubsystem.getTargetX(), 
+            ()->l_LimelightSubsystem.getTargetA(), 
+            ()->l_LimelightSubsystem.IsTargetAvailable(), 
+            s_Swerve, 
+            turn);        
+    }
 
 
     public RobotContainer() {
@@ -116,10 +124,12 @@ public class RobotContainer {
             field.getObject("path").setPoses(poses);
         });
 
+        NamedCommands.registerCommand("align", AutoPickUp_Driver(0, .75, 0));
+
       
         s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, 
-        ()-> -driver.getRawAxis(0), 
-        ()-> driver.getRawAxis(1),
+        ()-> -driver.getRawAxis(1), 
+        ()-> -driver.getRawAxis(0),
         ()-> -driver.getRawAxis(4), 
         ()->robotCentric));
 
@@ -162,7 +172,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         /* Driver Buttons */
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        zeroGyro.onTrue(new ParallelCommandGroup(new InstantCommand(() -> s_Swerve.zeroHeading()), new InstantCommand(()->s_Swerve.gyro.reset())));
         slowMode.onTrue(new InstantCommand(() -> RobotContainer.power = .333));
         fastMode.onTrue(new InstantCommand(() -> RobotContainer.power = 1));
 
@@ -170,6 +180,12 @@ public class RobotContainer {
                  new InstantCommand(()-> l_LimelightSubsystem.setCamMode(0)), AutoPickUp_Driver(0, .75, 0)));
 
         align.onFalse(new ParallelCommandGroup(new InstantCommand(()-> l_LimelightSubsystem.setCamMode(0))));
+        follow.whileTrue(new SequentialCommandGroup(
+            new InstantCommand(()-> l_LimelightSubsystem.setCamMode(0)), AutoFollow_Driver(0.3)));
+
+        follow.onFalse(new ParallelCommandGroup(new InstantCommand(()-> l_LimelightSubsystem.setCamMode(0))));
+
+ 
     }
         
 
@@ -180,8 +196,9 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         return new SequentialCommandGroup((new InstantCommand(() -> {
-            s_Swerve.zeroHeading();
-            s_Swerve.gyro.reset();
+            
+             s_Swerve.gyro.reset();
+            // s_Swerve.zeroHeading();
         })), autoChooser.getSelected());
         // An ExampleCommand will run in autonomous
         // return new exampleAuto(s_Swerve);

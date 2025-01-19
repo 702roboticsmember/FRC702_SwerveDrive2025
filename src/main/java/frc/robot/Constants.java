@@ -193,7 +193,7 @@ public final class Constants {
         public static final double DRIVE_KA = 0.27;
 
         /** Units: m/s */
-        public static final double MAX_SPEED = 22;
+        public static final double MAX_SPEED = 10;
         /** Units: radians/s */
         public static final double MAX_ANGULAR_VELOCITY = 10.0;
 
@@ -242,8 +242,8 @@ public final class Constants {
                     canCoderID, angleOffset);
         }
         public static final PPHolonomicDriveController PATHPLANNER_FOLLOWER_CONFIG = new PPHolonomicDriveController(
-                new PIDConstants(10.3, .1, 0.35), //2.8 .03 0.1
-                new PIDConstants(3, .035, 0.1)
+                new PIDConstants(5, 0, 0), 
+                new PIDConstants(3, 0, 0)
                 // MAX_SPEED,
                 // DRIVEBASE_RADIUS,
                 // new ReplanningConfig()
@@ -369,8 +369,8 @@ public final class Constants {
 
     public static final class AutoAimConstants {
         public static final double kP = 0.004537;
-        public static final double kI = 0.0000665;
-        public static final double kD = 0.0003333;
+        public static final double kI = 0.0000;
+        public static final double kD = 0.000;
 
         public static final double AutoAimPIDTolerance = 1.0;
         // public static final double DeflectorPosInValue = 0.0;
@@ -379,9 +379,9 @@ public final class Constants {
     }
 
     public static final class AutoFollowConstants {
-        public static final double kP = 0.00471;
+        public static final double kP = 0.271;
         public static final double kI = 0;
-        public static final double kD = 0.001333;
+        public static final double kD = 0.0;
 
        
 
@@ -429,6 +429,8 @@ public final class Constants {
     }
 
     public static final class AutoConstants { 
+
+        public static final double kHeadingOffset = 90;
                                               // tuned to specific robot
         public static final double kMaxSpeedMetersPerSecond = 7.5;
         public static final double kMaxAccelerationMetersPerSecondSquared = 5.2;
