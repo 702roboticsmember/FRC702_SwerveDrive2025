@@ -26,9 +26,7 @@ public final class Constants {
 
     public enum Direction {
         UP(0), RIGHT(90), DOWN(180), LEFT(270);
-
         int direction;
-
         private Direction(int direction) {
             this.direction = direction;
         }
@@ -45,80 +43,13 @@ public final class Constants {
                 case RIGHT:
                     return "RIGHT";
             }
-
             return null;
         }
     }
 
-    public enum ShooterSpeeds {
-        STOPPED(0,   "Stopped         "),
-        SLOW(.30,     "Slow               "),
-        MEDIUM(.45,  "Medium         "),
-        DEFAULT(.52, "Default           "),
-        VERY_FAST(.62, "Very Fast       "),
-        INSANELY_FAST(.75, "Insanely Fast");
-
-        public final double speed;
-        public final String label;
-        private ShooterSpeeds(double speed, String label) {
-            this.speed = speed;
-            this.label = label;
-        }
-
-        public ShooterSpeeds next() {
-            switch (this) {
-                case STOPPED:
-                    return SLOW;
-                case SLOW:
-                    return MEDIUM;
-                case MEDIUM:
-                    return DEFAULT;
-                case DEFAULT:
-                    return VERY_FAST;
-                case VERY_FAST:
-                    return INSANELY_FAST;
-                case INSANELY_FAST:
-                    return INSANELY_FAST;
-            }
-
-            throw new IllegalStateException("never reached");
-        }
-
-        public ShooterSpeeds prev() {
-            switch (this) {
-                case STOPPED:
-                    return STOPPED;
-                case SLOW:
-                    return STOPPED;
-                case MEDIUM:
-                    return SLOW;
-                case DEFAULT:
-                    return MEDIUM;
-                case VERY_FAST:
-                    return DEFAULT;
-                case INSANELY_FAST:
-                    return VERY_FAST;
-            }
-
-            // should never be reached
-            throw new IllegalStateException("never reached");
-        }
-    }
-
-    /**
-     * Corresponds to port zero on the Roborio DIO. 
-     */
-    public static final int LIMIT_SWITCH_INTAKE = 0;
-
     public static final class Swerve {
-        /**
-         * Whether gyroscope values should be inverted.
-         */
-        public static final boolean INVERT_GYRO = true;
 
-        /**
-         * Constants for the motor setup that we're using.
-         */
+        public static final boolean INVERT_GYRO = true;
         public static final COTSTalonFXSwerveConstants FALCON_500_CONSTANTS = Falcon500(driveRatios.L2);
 
         /**
@@ -195,7 +126,7 @@ public final class Constants {
         /** Units: m/s */
         public static final double MAX_SPEED = 10;
         /** Units: radians/s */
-        public static final double MAX_ANGULAR_VELOCITY = 10.0;
+        public static final double MAX_ANGULAR_VELOCITY = 3.0;
 
         /* Neutral Modes */
         public static final NeutralModeValue ANGLE_NEUTRAL_MODE = NeutralModeValue.Coast;
@@ -273,6 +204,7 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
+        
         public static final int IntakeMotorID = 14;
         
         public static final double MaxIntakeSpeed = 1;
@@ -285,35 +217,8 @@ public final class Constants {
         public static final boolean ENABLE_STATOR_CURRENT_LIMIT = true;
     }
 
-    public static final class DeflectorConstants {
-        public static final int DeflectorMotorID = 15;
-        public static final boolean DeflectorMotorInverted = false;
-
-
-
-        public static final double kP = 0.028;
-        public static final double kI = 0.00;
-        public static final double kD = 0.0012;
-
-        public static final double DeflectorPIDTolerance = 0.5;
-        public static final double DeflectorPosInValue = 0.0;
-        public static final double DeflectorPosOutValue = 105.0;  
-        public static final double DeflectorPosStowValue = 120.0;  
-
-        public static final boolean DeflectorLimitEnable = true;
-
-        public static final int STATOR_CURRENT_LIMIT = 20;
-        public static final int CURRENT_LIMIT = 15;
-        public static final int CURRENT_THRESHOLD = 20;
-        public static final double CURRENT_THRESHOLD_TIME = 0.1;
-        public static final boolean ENABLE_CURRENT_LIMIT = true;
-        public static final boolean ENABLE_STATOR_CURRENT_LIMIT = true;
-
-    }
-
-    public static final class ShootConstants {
-        public static final int BottomShootMotorID = 17;
-        public static final int TopShootMotorID = 16;
+    public static final class ShootSubsystem {
+        public static final int ShootMotorID = 17;
 
         public static final boolean TopShootMotorInverted = true;
         public static final boolean BottomShootMotorInverted = false;
@@ -329,103 +234,6 @@ public final class Constants {
         public static final double CURRENT_THRESHOLD_TIME = 0.1;
         public static final boolean ENABLE_CURRENT_LIMIT = true;
         public static final boolean ENABLE_STATOR_CURRENT_LIMIT = true;
-    }
-
-    public static final class ClimberConstants {
-        public static final int LeftLiftMotorID = 18;
-        public static final int RightLiftMotorID = 19;
-
-         public static final boolean LeftLiftMotorInverted = true;
-        public static final boolean RightLiftMotorInverted = true;
-
-        public static final NeutralModeValue LeftLiftMotorMode = NeutralModeValue.Brake;
-        public static final NeutralModeValue RightLiftMotorMode = NeutralModeValue.Brake;
-        
-        public static final double MaxLiftSpeed = 4.0;
-
-        public static final double LP = 1.3;
-        public static final double LI = 0.0023;
-        public static final double LD = 0.00147;
-        public static final double RP = 2.4;
-        public static final double RI = 0.0069;
-        public static final double RD = 0.00294;
-
-        public static boolean LiftLimitEnable = true;
-        public static final double LiftPIDTolerance = .5;
-        public static final double LeftLiftPosInValue = -41.7;
-        public static final double LeftLiftPosOutValue = 0;   
-        public static final double RightLiftPosInValue = -13;
-        public static final double RightLiftPosOutValue = 0;     
-
-        public static final int STATOR_CURRENT_LIMIT = 35;
-        public static final int CURRENT_LIMIT = 30;
-        public static final int CURRENT_THRESHOLD = 35;
-        public static final double CURRENT_THRESHOLD_TIME = 0.1;
-        public static final boolean ENABLE_CURRENT_LIMIT = true;
-        public static final boolean ENABLE_STATOR_CURRENT_LIMIT = true;
-
-    }
-
-
-    public static final class AutoAimConstants {
-        public static final double kP = 0.004537;
-        public static final double kI = 0.0000;
-        public static final double kD = 0.000;
-
-        public static final double AutoAimPIDTolerance = 1.0;
-        // public static final double DeflectorPosInValue = 0.0;
-        // public static final double DeflectorPosOutValue = 0.0;
-
-    }
-
-    public static final class AutoFollowConstants {
-        public static final double kP = 0.271;
-        public static final double kI = 0;
-        public static final double kD = 0.0;
-
-       
-
-        public static final double AutoFollowPIDTolerance = 1.0;
-        // public static final double DeflectorPosInValue = 0.0;
-        // public static final double DeflectorPosOutValue = 0.0;
-
-    }
-
-    public static final class AutoRotateConstants {
-        public static final double kP = 0.002037;
-        public static final double kI = 0.0000665;
-        public static final double kD = 0.0003333;
-
-        public static final double Tolerance = 6.0;
-        // public static final double DeflectorPosInValue = 0.0;
-        // public static final double DeflectorPosOutValue = 0.0;
-
-    }
-
-    public static final class AutoTranslateConstants {
-        public static final double kP = 0.05471;
-        public static final double kI = 0.000665;
-        public static final double kD = 0.001333;
-
-       
-
-        public static final double Tolerance = 0.3;
-        public static final double Setpoint = 1.2;
-        // public static final double DeflectorPosInValue = 0.0;
-        // public static final double DeflectorPosOutValue = 0.0;
-
-    }
-
-    public static final class AutoStrafeConstants {
-        public static final double kP = 0.05471;
-        public static final double kI = 0.000665;
-        public static final double kD = 0.001333;
-
-       
-
-        public static final double Tolerance = 1;
-        
-
     }
 
     public static final class AutoConstants { 
@@ -451,11 +259,5 @@ public final class Constants {
         // =
         // new TrapezoidProfile.Constraints(
         // kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-    }
-
-    public static final class LEDConstants {
-        public static final int LED_1_PwmID = 9;
-
-        public static final int LED_1_Length = 28;
     }
 }
