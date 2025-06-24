@@ -14,12 +14,12 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 import java.util.function.DoubleSupplier;
 
 import com.revrobotics.spark.*;
-import com.revrobotics.spark.config.*;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 
 
 public class TurretSubsystem extends SubsystemBase {
@@ -31,23 +31,8 @@ public class TurretSubsystem extends SubsystemBase {
  // private DigitalInput sensor = new DigitalInput(Constants.LIMIT_SWITCH_INTAKE);
   /** Creates a new ClimbSubsystem. */
    public TurretSubsystem() {
-    
-    SparkMaxConfig Config = new SparkMaxConfig();
-  
-    Config.inverted(false);
-    
-    Config.smartCurrentLimit(20);
-    
-    Config.idleMode(IdleMode.kBrake);
-    
-    Config.voltageCompensation(0);
-    Config.softLimit.forwardSoftLimit(0);
-    Config.softLimit.forwardSoftLimitEnabled(false);
-    Config.softLimit.reverseSoftLimit(0);
-    Config.softLimit.reverseSoftLimitEnabled(false);
 
-      
-    Motor.configure(Config, null, null);
+    Motor.configure(Robot.CTRE_CONFIGS.turretConfig, Constants.TurretConstants.resetMode, Constants.TurretConstants.persistMode);
   // /** Creates a new ReleaseSubsystem. */
  }
 

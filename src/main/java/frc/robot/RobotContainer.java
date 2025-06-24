@@ -38,6 +38,7 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     private final XboxController driver = new XboxController(0);
+    private final XboxController codriver = new XboxController(1);
     private final JoystickButton Shoot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton Intake = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
@@ -53,6 +54,8 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final ShooterSubsystem s_ShooterSubsystem = new ShooterSubsystem();
     private final IntakeSubsystem i_IntakeSubsystem = new IntakeSubsystem();
+    private final TurretSubsystem t_TurretSubsystem = new TurretSubsystem();
+    private final ReleaseSubsystem r_ReleaseSubsystem = new ReleaseSubsystem();
 
 
 
@@ -75,6 +78,8 @@ public class RobotContainer {
         ()-> -driver.getRawAxis(4) * power, 
         ()->robotCentric));
 
+        t_TurretSubsystem.setDefaultCommand(t_TurretSubsystem.run(()-> codriver.getRawAxis(4)));
+
         configureButtonBindings();
 
         // Build an auto chooser. This will use Commands.none() as the default option.
@@ -89,7 +94,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new ParallelCommandGroup(new InstantCommand(() -> s_Swerve.zeroHeading()), new InstantCommand(()->s_Swerve.gyro.reset())));
         slowMode.onTrue(new InstantCommand(() -> RobotContainer.power = .333));
         fastMode.onTrue(new InstantCommand(() -> RobotContainer.power = 1));  
-        Shoot.onTrue(new ShootCommand(s_ShooterSubsystem, 0));
+        Shoot.onTrue(new ShootCommand(s_ShooterSubsystem, r_ReleaseSubsystem, 0));
         Intake.onTrue(new InstantCommand(()-> i_IntakeSubsystem.set(-1)));
     }
     

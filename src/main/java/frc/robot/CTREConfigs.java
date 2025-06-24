@@ -4,16 +4,16 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 public final class CTREConfigs {
     public TalonFXConfiguration swerveAngleFXConfig = new TalonFXConfiguration();
     public TalonFXConfiguration swerveDriveFXConfig = new TalonFXConfiguration();
     public CANcoderConfiguration swerveCANcoderConfig = new CANcoderConfiguration();
-    public TalonFXConfiguration turretConfigs = new TalonFXConfiguration();
     public TalonFXConfiguration shooterConfigs = new TalonFXConfiguration();
     public TalonFXConfiguration intakeConfigs = new TalonFXConfiguration();
-
-
+    public SparkMaxConfig turretConfig = new SparkMaxConfig();
+    public SparkMaxConfig releaseConfig = new SparkMaxConfig();
 
     public CTREConfigs() {
         /** Swerve CANCoder Configuration */
@@ -70,66 +70,42 @@ public final class CTREConfigs {
         swerveDriveFXConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.Swerve.CLOSED_LOOP_RAMP;
     
         //turret configs
+        turretConfig.inverted(Constants.TurretConstants.MotorInverted);
+    
+        turretConfig.smartCurrentLimit(Constants.TurretConstants.CURRENT_LIMIT);
         
-        var currentlimits = turretConfigs.CurrentLimits;
-        currentlimits.StatorCurrentLimit = 0;
-        currentlimits.StatorCurrentLimitEnable = false;
-        currentlimits.SupplyCurrentLimit = 0;
-        currentlimits.SupplyCurrentLimitEnable = false;
-
-        var motoroutput = turretConfigs.MotorOutput;
-        motoroutput.NeutralMode = NeutralModeValue.Brake;
-        motoroutput.Inverted = InvertedValue.Clockwise_Positive;
+        turretConfig.idleMode(Constants.TurretConstants.MotorMode);
         
-
-        // set slot 0 gains
-        var slot0Configs = turretConfigs.Slot0;
-        slot0Configs.kS = 0.25; // Add 0.25 V output to overcome static friction
-        slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-        slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
-        slot0Configs.kI = 0; // no output for integrated error
-        slot0Configs.kD = 0; // no output for error derivative
-        
-        var limits = turretConfigs.SoftwareLimitSwitch;
-        limits.ForwardSoftLimitThreshold = 0;
-        limits.ForwardSoftLimitEnable = false;
-        limits.ReverseSoftLimitThreshold = 0;
-        limits.ReverseSoftLimitEnable = false;
-
-        // set Motion Magic Velocity settings
-        var motionMagicConfigs = turretConfigs.MotionMagic;
-        motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
-        motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
-        motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 4000 rps/s/s (0.1 seconds)
-        turretConfigs.Feedback.SensorToMechanismRatio = 1/14;
-        turretConfigs.ClosedLoopGeneral.ContinuousWrap = true;
-
+        turretConfig.voltageCompensation(0);
+        turretConfig.softLimit.forwardSoftLimit(Constants.TurretConstants.forwardSoftLimit);
+        turretConfig.softLimit.forwardSoftLimitEnabled(Constants.TurretConstants.LimitEnable);
+        turretConfig.softLimit.reverseSoftLimit(Constants.TurretConstants.reverseSoftLimit);
+        turretConfig.softLimit.reverseSoftLimitEnabled(Constants.TurretConstants.LimitEnable);
    
 
         //shooter configs
         var s_currentlimits = shooterConfigs.CurrentLimits;
-        s_currentlimits.StatorCurrentLimit = 0;
-        s_currentlimits.StatorCurrentLimitEnable = false;
-        s_currentlimits.SupplyCurrentLimit = 0;
-        s_currentlimits.SupplyCurrentLimitEnable = false;
+        s_currentlimits.StatorCurrentLimit = Constants.ShootSubsystem.STATOR_CURRENT_LIMIT;
+        s_currentlimits.StatorCurrentLimitEnable = Constants.ShootSubsystem.ENABLE_STATOR_CURRENT_LIMIT;
+        s_currentlimits.SupplyCurrentLimit = Constants.ShootSubsystem.CURRENT_LIMIT;
+        s_currentlimits.SupplyCurrentLimitEnable = Constants.ShootSubsystem.ENABLE_CURRENT_LIMIT;
 
         var s_motoroutput = shooterConfigs.MotorOutput;
-        s_motoroutput.NeutralMode = NeutralModeValue.Brake;
-        s_motoroutput.Inverted = InvertedValue.Clockwise_Positive;
+        s_motoroutput.NeutralMode = Constants.ShootSubsystem.ShootMotorMode;
+        s_motoroutput.Inverted = Constants.ShootSubsystem.ShootMotorInverted;
 
         var s_slot0Configs = shooterConfigs.Slot0;
-        s_slot0Configs.kS = 0.25; // Add 0.25 V output to overcome static friction
-        s_slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-        s_slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-        s_slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
-        s_slot0Configs.kI = 0; // no output for integrated error
-        s_slot0Configs.kD = 0; // no output for error derivative
+        s_slot0Configs.kS = Constants.ShootSubsystem.kS; // Add 0.25 V output to overcome static friction
+        s_slot0Configs.kV = Constants.ShootSubsystem.kV; // A velocity target of 1 rps results in 0.12 V output
+        s_slot0Configs.kA = Constants.ShootSubsystem.kA; // An acceleration of 1 rps/s requires 0.01 V output
+        s_slot0Configs.kP = Constants.ShootSubsystem.kP; // An error of 1 rps results in 0.11 V output
+        s_slot0Configs.kI = Constants.ShootSubsystem.kI; // no output for integrated error
+        s_slot0Configs.kD = Constants.ShootSubsystem.kD; // no output for error derivative
 
         // set Motion Magic Velocity settings
         var s_motionMagicConfigs = shooterConfigs.MotionMagic;
-        s_motionMagicConfigs.MotionMagicAcceleration = 400; // Target acceleration of 400 rps/s (0.25 seconds to max)
-        s_motionMagicConfigs.MotionMagicJerk = 4000; // Target jerk of 4000 rps/s/s (0.1 seconds)
+        s_motionMagicConfigs.MotionMagicAcceleration = Constants.ShootSubsystem.MotionMagicAcceleration; // Target acceleration of 400 rps/s (0.25 seconds to max)
+        s_motionMagicConfigs.MotionMagicJerk = Constants.ShootSubsystem.MotionMagicJerk; // Target jerk of 4000 rps/s/s (0.1 seconds)
 
 
         //intake configs
@@ -142,6 +118,13 @@ public final class CTREConfigs {
         var i_motoroutput = intakeConfigs.MotorOutput;
         i_motoroutput.NeutralMode = NeutralModeValue.Brake;
         i_motoroutput.Inverted = InvertedValue.Clockwise_Positive;
+
+        //release configs
+        releaseConfig.inverted(Constants.ReleaseConstants.MotorInverted);
+    
+        releaseConfig.smartCurrentLimit(Constants.ReleaseConstants.CURRENT_LIMIT);
+    
+        releaseConfig.idleMode(Constants.ReleaseConstants.MotorMode);
 
     }
 }

@@ -6,6 +6,9 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.pathplanner.lib.config.ModuleConfig;
 
 //import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -182,24 +185,46 @@ public final class Constants {
 
     }
 
-    public static final class ArmConstants {
-        public static final int ArmMotorID = 13;
+    public static final class TurretConstants {
+        public static final int TurretMotorID = 13;
 
         public static final double kP = 0.057;
         public static final double kI = 0.0014;
         public static final double kD = 0.0042;
 
-        public static final double ArmPIDTolerance = 1.0;
-        public static final double ArmPosInValue = 0.0;
-        public static final double ArmPosOutValue = -58.5;
-        public static final boolean ArmLimitEnable = true;
+        public static final double PIDTolerance = 1.0;
+        public static final double reverseSoftLimit = 0.0;
+        public static final double forwardSoftLimit = -58.5;
+        public static final boolean LimitEnable = true;
+        public static final boolean MotorInverted = false;
+        public static final IdleMode MotorMode = IdleMode.kBrake;
 
-        public static final int STATOR_CURRENT_LIMIT = 22;
+        
         public static final int CURRENT_LIMIT = 18;
-        public static final int CURRENT_THRESHOLD = 22;
-        public static final double CURRENT_THRESHOLD_TIME = 0.1;
+       
         public static final boolean ENABLE_CURRENT_LIMIT = true;
-        public static final boolean ENABLE_STATOR_CURRENT_LIMIT = true;
+
+        public static final ResetMode resetMode = null;
+
+        public static final PersistMode persistMode = null;
+        
+
+    }
+
+    public static final class ReleaseConstants {
+        public static final int MotorID = 13;
+
+        public static final int CURRENT_LIMIT = 18;
+       
+        public static final boolean ENABLE_CURRENT_LIMIT = true;
+
+        public static final ResetMode resetMode = null;
+
+        public static final PersistMode persistMode = null;
+
+        public static final boolean MotorInverted = false;
+
+        public static final IdleMode MotorMode = IdleMode.kBrake;
 
     }
 
@@ -220,11 +245,11 @@ public final class Constants {
     public static final class ShootSubsystem {
         public static final int ShootMotorID = 17;
 
-        public static final boolean TopShootMotorInverted = true;
-        public static final boolean BottomShootMotorInverted = false;
+        public static final InvertedValue ShootMotorInverted = InvertedValue.Clockwise_Positive;
+        
 
-        public static final NeutralModeValue TopShootMotorMode = NeutralModeValue.Coast;
-        public static final NeutralModeValue BottomShootMotorMode = NeutralModeValue.Coast;
+        public static final NeutralModeValue ShootMotorMode = NeutralModeValue.Coast;
+        
         
         public static final double MaxShootSpeed = 1;
 
@@ -234,6 +259,21 @@ public final class Constants {
         public static final double CURRENT_THRESHOLD_TIME = 0.1;
         public static final boolean ENABLE_CURRENT_LIMIT = true;
         public static final boolean ENABLE_STATOR_CURRENT_LIMIT = true;
+
+        public static final double MotionMagicAcceleration = 400;
+
+        public static final double MotionMagicJerk = 4000;
+
+        public static final double kS = 0.25; // Add 0.25 V output to overcome static friction
+        public static final double kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+        public static final double kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
+        public static final double kP = 0.11; // An error of 1 rps results in 0.11 V output
+        public static final double kI = 0; // no output for integrated error
+        public static final double kD = 0;
+
+        public static final double ShootAngle = 45;//degrees
+
+        public static final double ShootHeight = 1.2;//feet
     }
 
     public static final class AutoConstants { 

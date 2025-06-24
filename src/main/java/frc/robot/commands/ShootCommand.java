@@ -6,14 +6,17 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.ReleaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShootCommand extends Command{
     private ShooterSubsystem s_ShooterSubsystem;
+    private ReleaseSubsystem r_ReleaseSubsystem;
     private double Velocity;
-    public ShootCommand(ShooterSubsystem s_ShooterSubsystem, double Velocity){
+    public ShootCommand(ShooterSubsystem s_ShooterSubsystem, ReleaseSubsystem r_ReleaseSubsystem, double Velocity){
         addRequirements(s_ShooterSubsystem);
         this.Velocity = Velocity;
+        this.r_ReleaseSubsystem = r_ReleaseSubsystem;
     }
 
     @Override
@@ -24,7 +27,9 @@ public class ShootCommand extends Command{
     public void execute() {
         new SequentialCommandGroup(
             new InstantCommand(() -> s_ShooterSubsystem.setVelocity(Velocity)),
+            new InstantCommand(() -> r_ReleaseSubsystem.setSpeed(5)),
             new WaitCommand(2),
+            new InstantCommand(() -> r_ReleaseSubsystem.setSpeed(0)),
             new InstantCommand(() -> s_ShooterSubsystem.setVelocity(0))            
         );
     }

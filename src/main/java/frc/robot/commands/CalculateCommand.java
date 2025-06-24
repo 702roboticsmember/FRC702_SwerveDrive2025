@@ -6,15 +6,20 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
+import frc.robot.subsystems.ReleaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class CalculateCommand extends Command{
     private ShooterSubsystem s_ShooterSubsystem;
+    private ReleaseSubsystem r_ReleaseSubsystem;
     private double distance;
-    private double angle = 45;
-    private double hieght = 1.2;//feet
+    private double angle = Constants.ShootSubsystem.ShootAngle;
+    private double height = Constants.ShootSubsystem.ShootHeight;//feet
 
-    public CalculateCommand(ShooterSubsystem s_ShooterSubsystem, double distance){
+    public CalculateCommand(ShooterSubsystem s_ShooterSubsystem, ReleaseSubsystem r_ReleaseSubsystem, double distance){
+        this.s_ShooterSubsystem = s_ShooterSubsystem;
+        this.r_ReleaseSubsystem = r_ReleaseSubsystem;
         addRequirements(s_ShooterSubsystem);
         this.distance = distance;//feet
     }
@@ -25,14 +30,15 @@ public class CalculateCommand extends Command{
 
     @Override
     public void execute() {
+      // 0 = y + sin(45)vt + 0.5at^2
       
-      double Velocity = Math.sqrt((16 * distance * distance)/ (hieght - distance));
+      //y = t(sin(45)v + at)
+      //y = distancetan(45) + 0.5a(d/cos(45)v)^2
+      //t = distance/cos(45)v
+
+      double Velocity = Math.sqrt((16 * distance * distance)/((Math.cos(angle/180 * Math.PI) * Math.cos(angle/180 * Math.PI) ) * (height - (distance * Math.tan(angle/180 * Math.PI)))));
       
-      new SequentialCommandGroup(
-            new InstantCommand(() -> s_ShooterSubsystem.setVelocity(Velocity)),
-            new WaitCommand(2),
-            new InstantCommand(() -> s_ShooterSubsystem.setVelocity(0))            
-        );
+      new ShootCommand(s_ShooterSubsystem, r_ReleaseSubsystem, Velocity);
     }
 
     @Override

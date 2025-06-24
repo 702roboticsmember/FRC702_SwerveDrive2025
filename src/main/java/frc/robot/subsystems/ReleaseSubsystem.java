@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 import java.util.function.DoubleSupplier;
 
@@ -29,17 +30,8 @@ public class ReleaseSubsystem extends SubsystemBase {
  // private DigitalInput sensor = new DigitalInput(Constants.LIMIT_SWITCH_INTAKE);
   /** Creates a new ClimbSubsystem. */
    public ReleaseSubsystem() {
-    SparkMaxConfig Config = new SparkMaxConfig();
-  
-    Config.inverted(false);
-    
-    Config.smartCurrentLimit(20);
-    
-    Config.idleMode(IdleMode.kBrake);
-    
-    Config.voltageCompensation(0);
-      
-    Motor.configure(Config, null, null);
+   
+    Motor.configure(Robot.CTRE_CONFIGS.releaseConfig, Constants.ReleaseConstants.resetMode, Constants.ReleaseConstants.persistMode);
   // /** Creates a new ReleaseSubsystem. */
  }
 
