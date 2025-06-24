@@ -8,12 +8,15 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootCommand extends Command{
+public class CalculateCommand extends Command{
     private ShooterSubsystem s_ShooterSubsystem;
-    private double Velocity;
-    public ShootCommand(ShooterSubsystem s_ShooterSubsystem, double Velocity){
+    private double distance;
+    private double angle = 45;
+    private double hieght = 1.2;//feet
+
+    public CalculateCommand(ShooterSubsystem s_ShooterSubsystem, double distance){
         addRequirements(s_ShooterSubsystem);
-        this.Velocity = Velocity;
+        this.distance = distance;//feet
     }
 
     @Override
@@ -22,7 +25,10 @@ public class ShootCommand extends Command{
 
     @Override
     public void execute() {
-        new SequentialCommandGroup(
+      
+      double Velocity = Math.sqrt((16 * distance * distance)/ (hieght - distance));
+      
+      new SequentialCommandGroup(
             new InstantCommand(() -> s_ShooterSubsystem.setVelocity(Velocity)),
             new WaitCommand(2),
             new InstantCommand(() -> s_ShooterSubsystem.setVelocity(0))            

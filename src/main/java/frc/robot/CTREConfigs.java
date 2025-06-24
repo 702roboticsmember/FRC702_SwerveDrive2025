@@ -80,6 +80,7 @@ public final class CTREConfigs {
         var motoroutput = turretConfigs.MotorOutput;
         motoroutput.NeutralMode = NeutralModeValue.Brake;
         motoroutput.Inverted = InvertedValue.Clockwise_Positive;
+        
 
         // set slot 0 gains
         var slot0Configs = turretConfigs.Slot0;
@@ -89,6 +90,12 @@ public final class CTREConfigs {
         slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
         slot0Configs.kI = 0; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative
+        
+        var limits = turretConfigs.SoftwareLimitSwitch;
+        limits.ForwardSoftLimitThreshold = 0;
+        limits.ForwardSoftLimitEnable = false;
+        limits.ReverseSoftLimitThreshold = 0;
+        limits.ReverseSoftLimitEnable = false;
 
         // set Motion Magic Velocity settings
         var motionMagicConfigs = turretConfigs.MotionMagic;
@@ -97,6 +104,8 @@ public final class CTREConfigs {
         motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 4000 rps/s/s (0.1 seconds)
         turretConfigs.Feedback.SensorToMechanismRatio = 1/14;
         turretConfigs.ClosedLoopGeneral.ContinuousWrap = true;
+
+   
 
         //shooter configs
         var s_currentlimits = shooterConfigs.CurrentLimits;

@@ -89,7 +89,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new ParallelCommandGroup(new InstantCommand(() -> s_Swerve.zeroHeading()), new InstantCommand(()->s_Swerve.gyro.reset())));
         slowMode.onTrue(new InstantCommand(() -> RobotContainer.power = .333));
         fastMode.onTrue(new InstantCommand(() -> RobotContainer.power = 1));  
-        Shoot.onTrue(new ShootCommand(s_ShooterSubsystem));
+        Shoot.onTrue(new ShootCommand(s_ShooterSubsystem, 0));
         Intake.onTrue(new InstantCommand(()-> i_IntakeSubsystem.set(-1)));
     }
     
