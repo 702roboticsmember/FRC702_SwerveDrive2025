@@ -13,9 +13,9 @@ import frc.robot.subsystems.TurretSubsystem;
 public class TurretPIDCommand extends Command {
 
   private PIDController ArmPID = new PIDController(
-      Constants.ArmConstants.kP,
-      Constants.ArmConstants.kI,
-      Constants.ArmConstants.kD);
+      Constants.TurretConstants.kP,
+      Constants.TurretConstants.kI,
+      Constants.TurretConstants.kD);
 
   private TurretSubsystem t_TurretSubsystem;
 
@@ -23,7 +23,7 @@ public class TurretPIDCommand extends Command {
   public TurretPIDCommand(TurretSubsystem t_TurretSubsystem, double setpoint) {
     this.t_TurretSubsystem = t_TurretSubsystem;
     ArmPID.setSetpoint(setpoint);
-    ArmPID.setTolerance(Constants.ArmConstants.ArmPIDTolerance);
+    ArmPID.setTolerance(Constants.TurretConstants.PIDTolerance);
     addRequirements(t_TurretSubsystem);
   }
 
