@@ -243,7 +243,7 @@ public final class Constants {
     }
 
     public static final class ShootSubsystem {
-        public static final int ShootMotorID = 17;
+        public static final int ShootMotorID = 32;
 
         public static final InvertedValue ShootMotorInverted = InvertedValue.Clockwise_Positive;
         

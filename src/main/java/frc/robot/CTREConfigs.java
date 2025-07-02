@@ -76,6 +76,7 @@ public final class CTREConfigs {
         
         turretConfig.idleMode(Constants.TurretConstants.MotorMode);
         
+        
         turretConfig.voltageCompensation(0);
         turretConfig.softLimit.forwardSoftLimit(Constants.TurretConstants.forwardSoftLimit);
         turretConfig.softLimit.forwardSoftLimitEnabled(Constants.TurretConstants.LimitEnable);
