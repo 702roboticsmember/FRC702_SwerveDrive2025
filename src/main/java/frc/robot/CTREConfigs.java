@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -12,7 +13,7 @@ public final class CTREConfigs {
     public CANcoderConfiguration swerveCANcoderConfig = new CANcoderConfiguration();
     public TalonFXConfiguration shooterConfigs = new TalonFXConfiguration();
     public TalonFXConfiguration intakeConfigs = new TalonFXConfiguration();
-    public SparkMaxConfig turretConfig = new SparkMaxConfig();
+    public TalonSRXConfiguration turretConfig = new TalonSRXConfiguration();
     public SparkMaxConfig releaseConfig = new SparkMaxConfig();
 
     public CTREConfigs() {
@@ -70,18 +71,28 @@ public final class CTREConfigs {
         swerveDriveFXConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.Swerve.CLOSED_LOOP_RAMP;
     
         //turret configs
-        turretConfig.inverted(Constants.TurretConstants.MotorInverted);
+            turretConfig.peakCurrentLimit = Constants.TurretConstants.CURRENT_LIMIT;
+            turretConfig.continuousCurrentLimit = Constants.TurretConstants.CURRENT_LIMIT;
+            //turretConfig.
+            
+
+            turretConfig.forwardSoftLimitEnable = Constants.TurretConstants.LimitEnable;
+            turretConfig.forwardSoftLimitThreshold = Constants.TurretConstants.forwardSoftLimit;
+            turretConfig.reverseSoftLimitEnable = Constants.TurretConstants.LimitEnable;
+            turretConfig.reverseSoftLimitThreshold = Constants.TurretConstants.reverseSoftLimit;
+
+        // turretConfig.inverted(Constants.TurretConstants.MotorInverted);
     
-        turretConfig.smartCurrentLimit(Constants.TurretConstants.CURRENT_LIMIT);
+        // turretConfig.smartCurrentLimit(Constants.TurretConstants.CURRENT_LIMIT);
         
-        turretConfig.idleMode(Constants.TurretConstants.MotorMode);
+        // turretConfig.idleMode(Constants.TurretConstants.MotorMode);
         
         
-        turretConfig.voltageCompensation(0);
-        turretConfig.softLimit.forwardSoftLimit(Constants.TurretConstants.forwardSoftLimit);
-        turretConfig.softLimit.forwardSoftLimitEnabled(Constants.TurretConstants.LimitEnable);
-        turretConfig.softLimit.reverseSoftLimit(Constants.TurretConstants.reverseSoftLimit);
-        turretConfig.softLimit.reverseSoftLimitEnabled(Constants.TurretConstants.LimitEnable);
+        // turretConfig.voltageCompensation(0);
+        // turretConfig.softLimit.forwardSoftLimit(Constants.TurretConstants.forwardSoftLimit);
+        // turretConfig.softLimit.forwardSoftLimitEnabled(Constants.TurretConstants.LimitEnable);
+        // turretConfig.softLimit.reverseSoftLimit(Constants.TurretConstants.reverseSoftLimit);
+        // turretConfig.softLimit.reverseSoftLimitEnabled(Constants.TurretConstants.LimitEnable);
    
 
         //shooter configs

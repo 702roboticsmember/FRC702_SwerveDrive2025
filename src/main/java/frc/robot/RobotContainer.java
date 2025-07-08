@@ -95,7 +95,7 @@ public class RobotContainer {
         ()-> -driver.getRawAxis(4) * power, 
         ()->robotCentric));
 
-        t_TurretSubsystem.setDefaultCommand(t_TurretSubsystem.run(()-> codriver.getRawAxis(4)));
+        t_TurretSubsystem.setDefaultCommand(t_TurretSubsystem.run(()-> codriver.getRawAxis(4) * 0.3));
         //s_ShooterSubsystem.setDefaultCommand(s_ShooterSubsystem.run(null))
 
         configureButtonBindings();
@@ -112,7 +112,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new ParallelCommandGroup(new InstantCommand(() -> s_Swerve.zeroHeading()), new InstantCommand(()->s_Swerve.gyro.reset())));
         slowMode.onTrue(new InstantCommand(() -> RobotContainer.power = .333));
         fastMode.onTrue(new InstantCommand(() -> RobotContainer.power = 1));  
-        Shoot.onTrue( shoot(10));
+        Shoot.onTrue(shoot(10));
         //Shoot.onTrue(new InstantCommand(()->s_ShooterSubsystem.setVelocity(10)));
         //Shoot.onFalse(new InstantCommand(()->s_ShooterSubsystem.setVelocity(0)));
         Intake.onTrue(new InstantCommand(()-> i_IntakeSubsystem.set(-1)));

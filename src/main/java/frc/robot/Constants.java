@@ -193,14 +193,14 @@ public final class Constants {
         public static final double kD = 0.0042;
 
         public static final double PIDTolerance = 1.0;
-        public static final double reverseSoftLimit = 0.0;
-        public static final double forwardSoftLimit = -58.5;
+        public static final double reverseSoftLimit = -85;
+        public static final double forwardSoftLimit = 40;
         public static final boolean LimitEnable = true;
         public static final boolean MotorInverted = false;
-        public static final IdleMode MotorMode = IdleMode.kBrake;
+        //public static final IdleMode MotorMode = IdleMode.kBrake;
 
         
-        public static final int CURRENT_LIMIT = 18;
+        public static final int CURRENT_LIMIT = 50;
        
         public static final boolean ENABLE_CURRENT_LIMIT = true;
 
