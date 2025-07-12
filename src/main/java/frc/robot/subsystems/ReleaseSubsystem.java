@@ -24,7 +24,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 public class ReleaseSubsystem extends SubsystemBase {
 
-  private SparkMax Motor = new SparkMax(0, com.revrobotics.spark.SparkLowLevel.MotorType.kBrushed);
+  private SparkMax Motor = new SparkMax(Constants.ReleaseConstants.MotorID, com.revrobotics.spark.SparkLowLevel.MotorType.kBrushless);
    // private Spark LeftMotor = new Spark(Constants.CoralIntakeConstants.LeftMotorID);
   // private Spark RightMotor = new Spark(Constants.CoralIntakeConstants.RightMotorID);
  // private DigitalInput sensor = new DigitalInput(Constants.LIMIT_SWITCH_INTAKE);

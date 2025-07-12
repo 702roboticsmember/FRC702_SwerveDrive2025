@@ -212,7 +212,7 @@ public final class Constants {
     }
 
     public static final class ReleaseConstants {
-        public static final int MotorID = 13;
+        public static final int MotorID = 17;
 
         public static final int CURRENT_LIMIT = 18;
        
@@ -253,9 +253,9 @@ public final class Constants {
         
         public static final double MaxShootSpeed = 1;
 
-        public static final int STATOR_CURRENT_LIMIT = 50;
-        public static final int CURRENT_LIMIT = 35;
-        public static final int CURRENT_THRESHOLD = 50;
+        public static final int STATOR_CURRENT_LIMIT = 80;
+        public static final int CURRENT_LIMIT = 80;
+        public static final int CURRENT_THRESHOLD = 80;
         public static final double CURRENT_THRESHOLD_TIME = 0.1;
         public static final boolean ENABLE_CURRENT_LIMIT = true;
         public static final boolean ENABLE_STATOR_CURRENT_LIMIT = true;

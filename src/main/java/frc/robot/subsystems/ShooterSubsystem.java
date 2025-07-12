@@ -1,4 +1,6 @@
 package frc.robot.subsystems;
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -29,7 +31,7 @@ public class ShooterSubsystem extends SubsystemBase {
         ShooterMotor.setControl(m_request.withVelocity(value));
     }
 
-    public Command runCmd(double value) {
-        return this.run(() -> this.set(value));
+    public Command runCmd(DoubleSupplier value) {
+        return this.runEnd(() -> this.set(value.getAsDouble()), () -> this.set(0));
     }
 }
