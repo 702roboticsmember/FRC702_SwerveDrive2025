@@ -25,28 +25,7 @@ import static frc.lib.util.COTSTalonFXSwerveConstants.SDS.MK4i.*;
 public final class Constants {
     public static final double CONTROLLER_DEADBAND = 0.1;
 
-    public enum Direction {
-        UP(0), RIGHT(90), DOWN(180), LEFT(270);
-        int direction;
-        private Direction(int direction) {
-            this.direction = direction;
-        }
-
-        @Override
-        public String toString() {
-            switch (this) {
-                case UP:
-                    return "UP";
-                case DOWN:
-                    return "DOWN";
-                case LEFT:
-                    return "LEFT";
-                case RIGHT:
-                    return "RIGHT";
-            }
-            return null;
-        }
-    }
+   
 
     public static final class Swerve {
 
@@ -183,96 +162,7 @@ public final class Constants {
 
     }
 
-    public static final class TurretConstants {
-        public static final int TurretMotorID = 13;
-
-        public static final double kP = 0.057;
-        public static final double kI = 0.0014;
-        public static final double kD = 0.0042;
-
-        public static final double PIDTolerance = 1.0;
-        public static final double reverseSoftLimit = -85;
-        public static final double forwardSoftLimit = 40;
-        public static final boolean LimitEnable = true;
-        public static final boolean MotorInverted = false;
-        //public static final IdleMode MotorMode = IdleMode.kBrake;
-
-        
-        public static final int CURRENT_LIMIT = 50;
-       
-        public static final boolean ENABLE_CURRENT_LIMIT = true;
-
-        public static final ResetMode resetMode = null;
-
-        public static final PersistMode persistMode = null;
-        
-
-    }
-
-    public static final class ReleaseConstants {
-        public static final int MotorID = 17;
-
-        public static final int CURRENT_LIMIT = 18;
-       
-        public static final boolean ENABLE_CURRENT_LIMIT = true;
-
-        public static final ResetMode resetMode = null;
-
-        public static final PersistMode persistMode = null;
-
-        public static final boolean MotorInverted = false;
-
-        public static final IdleMode MotorMode = IdleMode.kBrake;
-
-    }
-
-    public static final class IntakeConstants {
-        
-        public static final int IntakeMotorID = 14;
-        
-        public static final double MaxIntakeSpeed = 1;
-
-        public static final int STATOR_CURRENT_LIMIT = 60;
-        public static final int CURRENT_LIMIT = 55;
-        public static final int CURRENT_THRESHOLD = 60;
-        public static final double CURRENT_THRESHOLD_TIME = 0.1;
-        public static final boolean ENABLE_CURRENT_LIMIT = true;
-        public static final boolean ENABLE_STATOR_CURRENT_LIMIT = true;
-    }
-
-    public static final class ShootSubsystem {
-        public static final int ShootMotorID = 32;
-
-        public static final InvertedValue ShootMotorInverted = InvertedValue.Clockwise_Positive;
-        
-
-        public static final NeutralModeValue ShootMotorMode = NeutralModeValue.Coast;
-        
-        
-        public static final double MaxShootSpeed = 1;
-
-        public static final int STATOR_CURRENT_LIMIT = 80;
-        public static final int CURRENT_LIMIT = 80;
-        public static final int CURRENT_THRESHOLD = 80;
-        public static final double CURRENT_THRESHOLD_TIME = 0.1;
-        public static final boolean ENABLE_CURRENT_LIMIT = true;
-        public static final boolean ENABLE_STATOR_CURRENT_LIMIT = true;
-
-        public static final double MotionMagicAcceleration = 400;
-
-        public static final double MotionMagicJerk = 4000;
-
-        public static final double kS = 0.25; // Add 0.25 V output to overcome static friction
-        public static final double kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-        public static final double kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-        public static final double kP = 0.11; // An error of 1 rps results in 0.11 V output
-        public static final double kI = 0; // no output for integrated error
-        public static final double kD = 0;
-
-        public static final double ShootAngle = 45;//degrees
-
-        public static final double ShootHeight = 1.2;//feet
-    }
+    
 
     public static final class AutoConstants { 
 

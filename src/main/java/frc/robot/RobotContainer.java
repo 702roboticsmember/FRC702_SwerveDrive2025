@@ -28,15 +28,9 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     private final XboxController driver = new XboxController(0);
-    private final XboxController codriver = new XboxController(1);
-    //private final JoystickButton Shoot = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-    private final JoystickButton Intake = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton fastMode = new JoystickButton(driver, XboxController.Button.kB.value);
     private final JoystickButton slowMode = new JoystickButton(driver, XboxController.Button.kA.value);
-    private final JoystickButton smartShoot = new JoystickButton(codriver, XboxController.Button.kA.value);
-    private final JoystickButton Shoot = new JoystickButton(codriver, XboxController.Button.kRightBumper.value);
     public static double power = 1;
     public static boolean robotCentric = false;
     private final SendableChooser<Command> autoChooser;
@@ -45,13 +39,6 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-
-
-   
-
-
-    
-
 
     public RobotContainer() {
         Field2d field = new Field2d();
