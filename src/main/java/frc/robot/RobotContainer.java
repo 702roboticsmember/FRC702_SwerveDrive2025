@@ -45,39 +45,11 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final ShooterSubsystem s_ShooterSubsystem = new ShooterSubsystem();
-    private final IntakeSubsystem i_IntakeSubsystem = new IntakeSubsystem();
-    private final TurretSubsystem t_TurretSubsystem = new TurretSubsystem();
-    private final ReleaseSubsystem r_ReleaseSubsystem = new ReleaseSubsystem();
 
-    public Command shoot(double velocity, ShooterSubsystem s_ShooterSubsystem, ReleaseSubsystem r_ReleaseSubsystem){
-        
-        return new SequentialCommandGroup(
-            new InstantCommand(()->s_ShooterSubsystem.setVelocity(velocity)),
-            new WaitCommand(1),
-            new InstantCommand(()->r_ReleaseSubsystem.setSpeed(0.3)),
-            new WaitCommand(1),
-            new InstantCommand(()->s_ShooterSubsystem.set(0)),
-            new InstantCommand(()->r_ReleaseSubsystem.setSpeed(0.0))
-        );
-    }
 
-    public Command CalculateShoot(double distance){
-        double angle = Constants.ShootSubsystem.ShootAngle;
-        double height = Constants.ShootSubsystem.ShootHeight;
-        double Velocity = Math.sqrt((16 * distance * distance)/((Math.cos(angle/180 * Math.PI) * Math.cos(angle/180 * Math.PI) ) * (height - (distance * Math.tan(angle/180 * Math.PI)))));
-      
-      return shoot(Velocity, s_ShooterSubsystem, r_ReleaseSubsystem);
-    }
+   
 
-    public Command CalculateShootSmart(){
-        double distance = SmartDashboard.getNumber("Input Distance", 0);
-        double angle = Constants.ShootSubsystem.ShootAngle;
-        double height = Constants.ShootSubsystem.ShootHeight;
-        double Velocity = Math.sqrt((16 * distance * distance)/((Math.cos(angle/180 * Math.PI) * Math.cos(angle/180 * Math.PI) ) * (height - (distance * Math.tan(angle/180 * Math.PI)))));
-      
-      return shoot( Velocity, s_ShooterSubsystem, r_ReleaseSubsystem);
-    }
+
     
 
 
@@ -100,7 +72,7 @@ public class RobotContainer {
         ()-> -driver.getRawAxis(4) * power, 
         ()->robotCentric));
 
-        t_TurretSubsystem.setDefaultCommand(t_TurretSubsystem.run(()-> codriver.getRawAxis(4) * 0.3));
+       
         //r_ReleaseSubsystem.setDefaultCommand(r_ReleaseSubsystem.run(()-> codriver.getRawAxis(3) * 0.3));
         
         //s_ShooterSubsystem.setDefaultCommand(s_ShooterSubsystem.runCmd(()-> codriver.getRawAxis(2) * 1));
@@ -121,11 +93,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new ParallelCommandGroup(new InstantCommand(() -> s_Swerve.zeroHeading()), new InstantCommand(()->s_Swerve.gyro.reset())));
         slowMode.onTrue(new InstantCommand(() -> RobotContainer.power = .333));
         fastMode.onTrue(new InstantCommand(() -> RobotContainer.power = 1));  
-        Shoot.onTrue(shoot(65.6, s_ShooterSubsystem, r_ReleaseSubsystem));
-        //Shoot.onTrue(new InstantCommand(()->s_ShooterSubsystem.setVelocity(10)));
-        //Shoot.onFalse(new InstantCommand(()->s_ShooterSubsystem.setVelocity(0)));
-        Intake.onTrue(new InstantCommand(()-> i_IntakeSubsystem.set(-1)));
-        smartShoot.onTrue(CalculateShootSmart());
+        
         
     }
     
